@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { getUserRole, getRoleRedirectPath } from "@/lib/roles";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -38,8 +39,13 @@ export function LoginForm({
         password,
       });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
+      
+      // Determinar el rol del usuario según su email
+      const userRole = getUserRole(email);
+      const redirectPath = getRoleRedirectPath(userRole);
+      
+      // Redirigir al usuario según su rol
+      router.push(redirectPath);
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
