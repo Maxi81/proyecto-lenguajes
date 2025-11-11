@@ -1,16 +1,116 @@
-'use client'
+"use server";
 
-export default function AdminDashboard() {
+import Link from "next/link";
+import { revalidatePath } from "next/cache";
+import { createClient } from "@/lib/supabase/server";
+
+// Server Action to delete a room
+export async function deleteRoom(formData: FormData) {
+  "use server";
+  const id = formData.get("id");
+  if (!id) return;
+
+  const supabase = await createClient();
+  try {
+    await supabase.from("habitaciones").delete().eq("id", id);
+    // Revalidate the admin dashboard path so the list updates
+    revalidatePath("/dashboard/admin");
+  } catch (err) {
+    console.error("Error deleting room:", err);
+  }
+}
+
+export default async function AdminDashboard() {
+  const supabase = await createClient();
+
+  const { data: habitaciones, error } = await supabase
+    .from("habitaciones")
+    .select("*, imagenes(url_imagen)");
+
+  if (error) {
+    console.error("Error fetching habitaciones:", error);
+  }
+
   return (
     <div className="flex-1 w-full flex flex-col gap-6 items-center">
-      <div className="w-full max-w-4xl flex justify-between items-center">
+      <div className="w-full max-w-6xl flex justify-between items-center">
         <h1 className="text-2xl font-bold">Panel de Administrador</h1>
+        <Link
+          href="/dashboard/admin/nueva"
+          className="rounded-md bg-black text-white px-4 py-2"
+        >
+          Crear Nueva Habitación
+        </Link>
       </div>
-      <div className="w-full max-w-4xl flex flex-col gap-6">
-        <h2 className="text-4xl font-bold text-center text-primary">¡Hola Administrador!</h2>
-        <p className="text-center text-xl">Bienvenido al panel de administración</p>
-        {/* Aquí puedes agregar más componentes específicos para el administrador */}
+
+      <div className="w-full max-w-6xl">
+        {!habitaciones ||
+        (Array.isArray(habitaciones) && habitaciones.length === 0) ? (
+          <p className="text-center text-gray-600">
+            No hay habitaciones registradas
+          </p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Nombre
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Precio por Noche
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Imagen
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {(habitaciones as any[]).map((h) => (
+                  <tr key={h.id}>
+                    <td className="px-6 py-4 whitespace-nowrap">{h.nombre}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      ${h.precio_por_noche}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {h.imagenes?.[0]?.url_imagen ? (
+                        <img
+                          src={h.imagenes[0].url_imagen}
+                          alt=""
+                          className="w-24 h-16 object-cover rounded"
+                        />
+                      ) : (
+                        <span className="text-gray-500">Sin imagen</span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-2">
+                      <Link
+                        href={`/dashboard/admin/editar/${h.id}`}
+                        className="text-blue-600 hover:underline px-3 py-1 border rounded"
+                      >
+                        Editar
+                      </Link>
+
+                      <form action={deleteRoom}>
+                        <input type="hidden" name="id" value={h.id} />
+                        <button
+                          type="submit"
+                          className="text-red-600 hover:underline px-3 py-1 border rounded"
+                        >
+                          Borrar
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
-  )
+  );
 }

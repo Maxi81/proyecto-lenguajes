@@ -3,11 +3,56 @@
 "use client"; // Necesario para usar 'usePathname'
 
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Importamos el hook
+import { usePathname, useRouter } from "next/navigation"; // Importamos el hook
+import React, { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 export const Navbar = () => {
   const pathname = usePathname(); // Obtenemos la ruta actual (ej: "/", "/habitaciones")
   const isHomePage = pathname === "/"; // Verificamos si estamos en la página principal
+  const router = useRouter();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Crear cliente supabase en cliente y comprobar usuario actual
+    const supabase = createClient();
+
+    let mounted = true;
+
+    async function checkUser() {
+      try {
+        const { data } = await supabase.auth.getUser();
+        if (!mounted) return;
+        setIsLoggedIn(!!data?.user);
+      } catch (err) {
+        console.error("Error checking supabase user:", err);
+        if (!mounted) return;
+        setIsLoggedIn(false);
+      }
+    }
+
+    checkUser();
+
+    // Optional: listen to auth state changes to update UI
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setIsLoggedIn(!!session?.user);
+      }
+    );
+
+    return () => {
+      mounted = false;
+      // unsubscribe listener
+      if (
+        listener &&
+        typeof listener.subscription?.unsubscribe === "function"
+      ) {
+        // @ts-ignore
+        listener.subscription.unsubscribe();
+      }
+    };
+  }, []);
 
   // Clases dinámicas:
   // Si es la página principal, el fondo es transparente (bg-black/60).
@@ -53,12 +98,34 @@ export const Navbar = () => {
         </div>
 
         {/* Botón de Reservar */}
-        <a
-          href="#reservar"
+        {/* Si no está logueado, va a /login; si está logueado, va a /reservar */}
+        <Link
+          href={isLoggedIn ? "/reservar" : "/login"}
           className={`hidden md:block rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
         >
           Reservar
-        </a>
+        </Link>
+
+        {/* Botón Cerrar sesión (sólo visible cuando está logueado) */}
+        {isLoggedIn && (
+          <button
+            onClick={async () => {
+              try {
+                const supabase = createClient();
+                await supabase.auth.signOut();
+                setIsLoggedIn(false);
+                // Redirigir al home o login tras logout
+                router.push("/");
+              } catch (err) {
+                console.error("Error signing out:", err);
+                alert("Error al cerrar sesión. Revisa la consola.");
+              }
+            }}
+            className={`ml-4 hidden md:inline-flex items-center rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+          >
+            Cerrar sesión
+          </button>
+        )}
 
         {/* Icono de Menú para Móvil */}
         <div className="md:hidden">
