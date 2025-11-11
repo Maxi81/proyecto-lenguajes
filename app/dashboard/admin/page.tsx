@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { updateUserRole } from "./usuarios/actions";
+import { UserRow } from "./usuarios/UserRow";
 
 // Server Action to delete a room
 export async function deleteRoom(formData: FormData) {
@@ -23,18 +25,30 @@ export async function deleteRoom(formData: FormData) {
 export default async function AdminDashboard() {
   const supabase = await createClient();
 
-  const { data: habitaciones, error } = await supabase
+  // Query 1: Habitaciones
+  const { data: habitaciones, error: habitacionesError } = await supabase
     .from("habitaciones")
     .select("*, imagenes(url_imagen)");
 
-  if (error) {
-    console.error("Error fetching habitaciones:", error);
+  if (habitacionesError) {
+    console.error("Error fetching habitaciones:", habitacionesError);
+  }
+
+  // Query 2: Profiles (usuarios)
+  const { data: profiles, error: profilesError } = await supabase
+    .from("profiles")
+    .select("id, email, role")
+    .in("role", ["operador", "admin"])
+    .order("email");
+
+  if (profilesError) {
+    console.error("Error fetching profiles:", profilesError);
   }
 
   return (
     <div className="flex-1 w-full flex flex-col gap-6 items-center">
       <div className="w-full max-w-6xl flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Panel de Administrador</h1>
+  <h1 className="text-2xl font-bold text-gray-900">Panel de Administrador</h1>
         <Link
           href="/dashboard/admin/nueva"
           className="rounded-md bg-black text-white px-4 py-2"
@@ -46,7 +60,7 @@ export default async function AdminDashboard() {
       <div className="w-full max-w-6xl">
         {!habitaciones ||
         (Array.isArray(habitaciones) && habitaciones.length === 0) ? (
-          <p className="text-center text-gray-600">
+              <p className="text-center text-gray-900">
             No hay habitaciones registradas
           </p>
         ) : (
@@ -54,16 +68,16 @@ export default async function AdminDashboard() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                     Nombre
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                     Precio por Noche
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                     Imagen
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider">
                     Acciones
                   </th>
                 </tr>
@@ -71,22 +85,22 @@ export default async function AdminDashboard() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {(habitaciones as any[]).map((h) => (
                   <tr key={h.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">{h.nombre}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">{h.nombre}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
                       ${h.precio_por_noche}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
                       {h.imagenes?.[0]?.url_imagen ? (
                         <img
                           src={h.imagenes[0].url_imagen}
                           alt=""
                           className="w-24 h-16 object-cover rounded"
                         />
-                      ) : (
-                        <span className="text-gray-500">Sin imagen</span>
+                        ) : (
+                        <span className="text-gray-900">Sin imagen</span>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-2">
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-2 text-gray-900">
                       <Link
                         href={`/dashboard/admin/editar/${h.id}`}
                         className="text-blue-600 hover:underline px-3 py-1 border rounded"
@@ -105,6 +119,47 @@ export default async function AdminDashboard() {
                       </form>
                     </td>
                   </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Separador y sección de gestión de usuarios */}
+      <hr className="w-full max-w-6xl border-gray-300 my-8" />
+
+      <div className="w-full max-w-6xl flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-gray-900">
+          Gestionar Usuarios
+        </h2>
+        <Link
+          href="/dashboard/admin/usuarios/nuevo"
+          className="rounded-md bg-black text-white px-4 py-2"
+        >
+          Crear Nuevo Operador
+        </Link>
+      </div>
+
+      <div className="w-full max-w-6xl mt-6">
+        {!profiles || profiles.length === 0 ? (
+          <p className="text-center text-gray-900">No hay usuarios registrados</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                    Email
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                    Rol
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {profiles.map((user) => (
+                  <UserRow key={user.id} user={user} />
                 ))}
               </tbody>
             </table>

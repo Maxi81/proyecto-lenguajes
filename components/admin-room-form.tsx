@@ -25,39 +25,39 @@ export default function AdminRoomForm({
 }) {
   return (
     <div className="max-w-3xl mx-auto py-8 w-full">
-      <h2 className="text-xl font-bold mb-4">Editar Habitación</h2>
+      <h2 className="text-xl font-bold mb-4 text-gray-900">Editar Habitación</h2>
 
       <form action={updateRoom} className="space-y-4">
         <input type="hidden" name="id" value={habitacion.id} />
 
         <div>
-          <label className="block text-sm font-medium">Nombre</label>
+          <label className="block text-sm font-medium text-gray-900">Nombre</label>
           <input
             name="nombre"
             defaultValue={habitacion.nombre ?? ""}
             required
-            className="mt-1 block w-full rounded border px-3 py-2"
+            className="mt-1 block w-full rounded border px-3 py-2 text-white"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium">
+          <label className="block text-sm font-medium text-gray-900">
             Número de habitación
           </label>
           <input
             name="numero_habitacion"
             defaultValue={habitacion.numero_habitacion ?? ""}
             required
-            className="mt-1 block w-full rounded border px-3 py-2"
+            className="mt-1 block w-full rounded border px-3 py-2 text-white"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Tipo</label>
+          <label className="block text-sm font-medium text-gray-900">Tipo</label>
           <select
             name="tipo"
             defaultValue={habitacion.tipo ?? "simple"}
-            className="mt-1 block w-full rounded border px-3 py-2"
+            className="mt-1 block w-full rounded border px-3 py-2 text-white"
           >
             <option value="simple">Simple</option>
             <option value="doble">Doble</option>
@@ -67,61 +67,51 @@ export default function AdminRoomForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Descripción</label>
+          <label className="block text-sm font-medium text-gray-900">Descripción</label>
           <textarea
             name="descripcion"
             defaultValue={habitacion.descripcion ?? ""}
-            className="mt-1 block w-full rounded border px-3 py-2"
+            className="mt-1 block w-full rounded border px-3 py-2 text-white"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium">
+            <label className="block text-sm font-medium text-gray-900">
               Precio por noche
             </label>
             <input
               name="precio_por_noche"
-              type="number"
-              step="0.01"
+              type="text"
+              inputMode="decimal"
               defaultValue={habitacion.precio_por_noche ?? 0}
               required
-              className="mt-1 block w-full rounded border px-3 py-2"
+              className="mt-1 block w-full rounded border px-3 py-2 text-white"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Capacidad</label>
+            <label className="block text-sm font-medium text-gray-900">Capacidad</label>
             <input
               name="capacidad"
-              type="number"
+              type="text"
+              inputMode="numeric"
               defaultValue={habitacion.capacidad ?? 1}
               required
-              className="mt-1 block w-full rounded border px-3 py-2"
+              className="mt-1 block w-full rounded border px-3 py-2 text-white"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium">
-            Imágenes (subir nuevas)
-          </label>
+          <label className="block text-sm font-medium text-gray-900">Imagen URL</label>
           <input
-            name="images"
-            type="file"
-            multiple
-            className="mt-1 block w-full"
+            name="imagen_url"
+            type="text"
+            placeholder="Pega la URL de la imagen aquí"
+            defaultValue={habitacion.imagenes?.[0]?.url_imagen ?? ""}
+            className="mt-1 block w-full rounded border px-3 py-2 text-white"
           />
-          <div className="mt-2 flex gap-2 flex-wrap">
-            {habitacion.imagenes?.map((img, i) => (
-              <img
-                key={i}
-                src={img.url_imagen}
-                className="w-28 h-20 object-cover rounded"
-                alt=""
-              />
-            ))}
-          </div>
         </div>
 
         <div>

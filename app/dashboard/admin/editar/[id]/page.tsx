@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { Navbar } from "@/components/Navbar";
 import AdminRoomForm from "@/components/admin-room-form";
 
 type Props = {
@@ -9,13 +8,16 @@ type Props = {
 };
 
 export default async function EditRoomPage({ params }: Props) {
+  // Await params since it's a Promise in Next.js 15
+  const { id } = await params;
+  
   const supabase = await createClient();
 
   const { data: habitacion, error } = await supabase
     .from("habitaciones")
     .select("*, imagenes(url_imagen)")
-    .eq("id", params.id)
-    .single();
+    .eq("id", Number(id))
+    .maybeSingle();
 
   if (error) {
     console.error("Error fetching habitacion:", error);
@@ -31,13 +33,9 @@ export default async function EditRoomPage({ params }: Props) {
 
   return (
     <main className="min-h-screen">
-      <div className="absolute inset-x-0 top-0 z-50">
-        <Navbar />
-      </div>
-      <div className="pt-28 px-4">
+      <div className="px-4 py-8">
         {/* Pass habitacion data to client form component */}
         {/* Note: AdminRoomForm is a client component and will call server actions exported elsewhere */}
-        {/* @ts-expect-error server -> client prop serializability */}
         <AdminRoomForm habitacion={habitacion} />
       </div>
     </main>

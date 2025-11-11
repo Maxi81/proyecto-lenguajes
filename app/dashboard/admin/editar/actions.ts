@@ -1,3 +1,4 @@
+"use server";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -33,37 +34,18 @@ export async function updateRoom(formData: FormData) {
       })
       .eq("id", id);
 
-    // Handle new image files if provided
-    const files = formData.getAll("images") as File[];
-    for (const file of files) {
-      if (!file || (file as any).size === 0) continue;
+    // Handle image URL
+    const imageUrl = formData.get("imagen_url") as string | null;
 
-      const filePath = `${id}/${Date.now()}-${file.name}`;
-      const { error: uploadError } = await supabase.storage
-        .from("habitaciones")
-        .upload(filePath, file as any);
+    if (imageUrl && imageUrl.trim() !== "") {
+      // Delete old images for this habitacion
+      await supabase.from("imagenes").delete().eq("habitacion_id", id);
 
-      if (uploadError) {
-        console.error("upload error:", uploadError);
-        continue;
-      }
-
-      const { data: publicData } = supabase.storage
-        .from("habitaciones")
-        .getPublicUrl(filePath);
-      const publicUrl =
-        (publicData as any)?.publicUrl ||
-        (publicData as any)?.publicURL ||
-        null;
-
-      if (publicUrl) {
-        await supabase.from("imagenes").insert([
-          {
-            url_imagen: publicUrl,
-            habitacion_id: id,
-          },
-        ]);
-      }
+      // Insert new image URL
+      await supabase.from("imagenes").insert({
+        habitacion_id: id,
+        url_imagen: imageUrl.trim(),
+      });
     }
 
     revalidatePath("/dashboard/admin");

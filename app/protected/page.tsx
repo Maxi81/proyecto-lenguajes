@@ -19,7 +19,7 @@ export default async function ProtectedPage() {
       <div className="flex-1 w-full flex flex-col gap-12 items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">¡Hola Amigo!</h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-900">
             Has iniciado sesión correctamente
           </p>
         </div>

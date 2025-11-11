@@ -22,8 +22,8 @@ export default async function HabitacionesPage() {
 
       <div className="w-full max-w-6xl mx-auto px-4 pt-32 pb-24">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold">Habitaciones</h1>
-          <p className="text-gray-600 mt-2">
+          <h1 className="text-3xl font-bold text-gray-900">Habitaciones</h1>
+          <p className="text-gray-900 mt-2">
             Encuentra el alojamiento perfecto para tu próxima estadía.
           </p>
         </header>
@@ -31,7 +31,7 @@ export default async function HabitacionesPage() {
         <section>
           {!habitaciones ||
           (Array.isArray(habitaciones) && habitaciones.length === 0) ? (
-            <p className="text-center text-gray-600">
+            <p className="text-center text-gray-900">
               No hay habitaciones disponibles
             </p>
           ) : (
@@ -41,6 +41,7 @@ export default async function HabitacionesPage() {
                   key={habitacion.id}
                   title={habitacion.nombre}
                   location={habitacion.descripcion}
+                  tipo={habitacion.tipo}
                   beds={`${habitacion.capacidad} ${
                     habitacion.capacidad > 1 ? "camas" : "cama"
                   }`}

@@ -3,6 +3,7 @@ import * as React from "react";
 type RoomCardProps = {
   title: string;
   location: string;
+  tipo: string;
   beds?: string;
   rating?: string | number;
   price?: string | number;
@@ -12,6 +13,7 @@ type RoomCardProps = {
 export function RoomCard({
   title,
   location,
+  tipo,
   beds = "1 cama",
   rating = "4.9",
   price = "$120 USD",
@@ -52,15 +54,16 @@ export function RoomCard({
       </div>
 
       <div className="mt-4">
-        <h4 className="text-lg font-semibold">{title}</h4>
+        <h4 className="text-lg font-semibold text-gray-900">{title}</h4>
         <div className="flex items-center justify-between text-sm text-gray-600 mt-1">
           <div>
             <p>{location}</p>
+            <p className="text-xs text-gray-500 capitalize">{tipo}</p>
             <p className="text-xs text-gray-500">{beds}</p>
           </div>
           <div className="text-right">
             <div className="text-sm font-medium">★ {rating}</div>
-            <div className="text-xs text-gray-500">{price} por 4 noches</div>
+            <div className="text-xs text-gray-500">{price} por noche</div>
           </div>
         </div>
       </div>

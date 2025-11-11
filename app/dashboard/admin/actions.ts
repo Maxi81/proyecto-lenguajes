@@ -44,67 +44,19 @@ export async function createRoom(formData: FormData) {
       throw new Error("No se obtuvo el id de la habitación creada");
     }
 
-    // Handle files
-    const files = formData.getAll("images") as File[];
-    for (const file of files) {
-      if (!file || (file as any).size === 0) continue;
+    // Handle image URL
+    const imageUrl = formData.get("imagen_url") as string;
+    
+    if (imageUrl && imageUrl.trim() !== "") {
+      const { error: imgInsertError } = await supabase
+        .from("imagenes")
+        .insert({
+          habitacion_id: habitacionId,
+          url_imagen: imageUrl.trim(),
+        });
 
-      // Build a unique path inside the 'habitaciones' bucket
-      const filePath = `${habitacionId}/${Date.now()}-${file.name}`;
-
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from("habitaciones")
-        .upload(filePath, file as any);
-      // Debug: log upload result
-      console.log(
-        "Uploaded file to storage path:",
-        filePath,
-        "uploadError:",
-        uploadError
-      );
-
-      if (uploadError) {
-        console.error("Error uploading file:", uploadError);
-        continue;
-      }
-
-      // Get public URL
-      const { data: publicData } = supabase.storage
-        .from("habitaciones")
-        .getPublicUrl(filePath);
-      const publicUrl =
-        (publicData as any)?.publicUrl ||
-        (publicData as any)?.publicURL ||
-        null;
-
-      // Debug: log the generated public URL
-      console.log("Public URL for", filePath, ":", publicUrl);
-
-      // Insert image record linking to the habitación
-      try {
-        const { data: imgInsertData, error: imgInsertError } = await supabase
-          .from("imagenes")
-          .insert([
-            {
-              url_imagen: publicUrl,
-              habitacion_id: habitacionId, // ASSUMPTION: imagenes table uses habitacion_id FK
-            },
-          ]);
-
-        // Debug: log result of image insert
-        console.log(
-          "Inserted imagen record for habitacion",
-          habitacionId,
-          "result:",
-          imgInsertData,
-          "error:",
-          imgInsertError
-        );
-        if (imgInsertError) {
-          console.error("Error inserting imagen record:", imgInsertError);
-        }
-      } catch (err) {
-        console.error("Error inserting imagen record (catch):", err);
+      if (imgInsertError) {
+        console.error("Error inserting imagen record:", imgInsertError);
       }
     }
 

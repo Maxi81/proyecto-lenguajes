@@ -97,35 +97,52 @@ export const Navbar = () => {
           {/* -------------------------------------- */}
         </div>
 
-        {/* Botón de Reservar */}
-        {/* Si no está logueado, va a /login; si está logueado, va a /reservar */}
-        <Link
-          href={isLoggedIn ? "/reservar" : "/login"}
-          className={`hidden md:block rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
-        >
-          Reservar
-        </Link>
-
-        {/* Botón Cerrar sesión (sólo visible cuando está logueado) */}
-        {isLoggedIn && (
-          <button
-            onClick={async () => {
-              try {
-                const supabase = createClient();
-                await supabase.auth.signOut();
-                setIsLoggedIn(false);
-                // Redirigir al home o login tras logout
-                router.push("/");
-              } catch (err) {
-                console.error("Error signing out:", err);
-                alert("Error al cerrar sesión. Revisa la consola.");
-              }
-            }}
-            className={`ml-4 hidden md:inline-flex items-center rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+        {/* Grupo de botones: Reservar + Autenticación */}
+        <div className="hidden md:flex items-center space-x-2">
+          {/* Botón de Reservar */}
+          <Link
+            href={isLoggedIn ? "/reservar" : "/login"}
+            className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
           >
-            Cerrar sesión
-          </button>
-        )}
+            Reservar
+          </Link>
+
+          {/* Botones según estado de autenticación */}
+          {isLoggedIn ? (
+            <button
+              onClick={async () => {
+                try {
+                  const supabase = createClient();
+                  await supabase.auth.signOut();
+                  setIsLoggedIn(false);
+                  // Redirigir al home o login tras logout
+                  router.push("/");
+                } catch (err) {
+                  console.error("Error signing out:", err);
+                  alert("Error al cerrar sesión. Revisa la consola.");
+                }
+              }}
+              className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+            >
+              Cerrar sesión
+            </button>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+              >
+                Iniciar Sesión
+              </Link>
+              <Link
+                href="/auth/sign-up"
+                className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+              >
+                Registrarte
+              </Link>
+            </>
+          )}
+        </div>
 
         {/* Icono de Menú para Móvil */}
         <div className="md:hidden">
