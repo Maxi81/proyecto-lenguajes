@@ -93,23 +93,31 @@ export const Navbar = () => {
         <div className="hidden md:flex items-center space-x-2">
           {/* Botones según estado de autenticación */}
           {isLoggedIn ? (
-            <button
-              onClick={async () => {
-                try {
-                  const supabase = createClient();
-                  await supabase.auth.signOut();
-                  setIsLoggedIn(false);
-                  // Redirigir al home o login tras logout
-                  router.push("/");
-                } catch (err) {
-                  console.error("Error signing out:", err);
-                  alert("Error al cerrar sesión. Revisa la consola.");
-                }
-              }}
-              className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
-            >
-              Cerrar sesión
-            </button>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/reservas-pendientes"
+                className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+              >
+                Pagar Reserva
+              </Link>
+              <button
+                onClick={async () => {
+                  try {
+                    const supabase = createClient();
+                    await supabase.auth.signOut();
+                    setIsLoggedIn(false);
+                    // Redirigir al home o login tras logout
+                    router.push("/");
+                  } catch (err) {
+                    console.error("Error signing out:", err);
+                    alert("Error al cerrar sesión. Revisa la consola.");
+                  }
+                }}
+                className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+              >
+                Cerrar sesión
+              </button>
+            </div>
           ) : (
             <>
               <Link

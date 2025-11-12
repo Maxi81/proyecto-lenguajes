@@ -13,7 +13,6 @@ export type ReservationCardProps = {
   existingReservations?: Array<{
     fecha_inicio: string;
     fecha_fin: string;
-    estado: string;
   }>;
 };
 
@@ -60,13 +59,11 @@ export function ReservationCard({
   const disabledDates = useMemo(() => {
     if (!existingReservations) return [];
 
-    return existingReservations
-      .filter((res) => res.estado === "confirmada") // Solo bloquear fechas confirmadas
-      .map((res) => ({
-        // Usamos T00:00:00 para evitar errores de zona horaria
-        from: new Date(res.fecha_inicio + "T00:00:00"),
-        to: new Date(res.fecha_fin + "T00:00:00"),
-      }));
+    return existingReservations.map((res) => ({
+      // Usamos T00:00:00 para evitar errores de zona horaria
+      from: new Date(res.fecha_inicio + "T00:00:00"),
+      to: new Date(res.fecha_fin + "T00:00:00"),
+    }));
   }, [existingReservations]);
 
   return (
@@ -92,14 +89,16 @@ export function ReservationCard({
 
           // Botones de flecha
           nav: "space-x-1 flex items-center",
-          nav_button: "h-7 w-7 flex items-center justify-center p-1 rounded-full hover:bg-gray-100 text-gray-800",
+          nav_button:
+            "h-7 w-7 flex items-center justify-center p-1 rounded-full hover:bg-gray-100 text-gray-800",
           nav_button_previous: "absolute left-1",
           nav_button_next: "absolute right-1",
 
           // Estilos de la TABLA del calendario
           table: "w-full border-collapse", // <-- Usa todo el ancho
           head_row: "flex",
-          head_cell: "text-gray-500 rounded-md w-full justify-center font-normal text-[0.8rem] p-1", // <-- Días de la semana
+          head_cell:
+            "text-gray-500 rounded-md w-full justify-center font-normal text-[0.8rem] p-1", // <-- Días de la semana
 
           row: "flex w-full mt-2", // <-- Fila de la semana
           cell: "p-0 m-0.5 text-center text-sm relative first:[&:has([aria-selected])]:rounded-l-full last:[&:has([aria-selected])]:rounded-r-full focus-within:relative focus-within:z-20", // <-- Contenedor del día
@@ -111,8 +110,10 @@ export function ReservationCard({
           day_disabled: "text-gray-300 opacity-50 line-through",
 
           // Estilos de RANGO
-          day_range_start: "day-range-start bg-blue-600 text-white rounded-l-full hover:bg-blue-600",
-          day_range_end: "day-range-end bg-blue-600 text-white rounded-r-full hover:bg-blue-600",
+          day_range_start:
+            "day-range-start bg-blue-600 text-white rounded-l-full hover:bg-blue-600",
+          day_range_end:
+            "day-range-end bg-blue-600 text-white rounded-r-full hover:bg-blue-600",
           day_selected: "bg-blue-500 text-white hover:bg-blue-600 rounded-full",
           day_range_middle: "bg-blue-100 text-blue-700 rounded-none",
         }}

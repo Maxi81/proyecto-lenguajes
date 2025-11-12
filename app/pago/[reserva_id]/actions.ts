@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { createClient } from "@/lib/supabase/server";
 
 export async function confirmPayment(
   reservaId: number
@@ -44,4 +45,25 @@ export async function confirmPayment(
 
   revalidatePath(`/pago/${reserva_id}`);
   redirect("/reservas/exito");
+}
+
+export async function cancelPendingReservation(reservaId: number) {
+  // Esta acción usa el cliente de servidor normal.
+  // La política RLS que acabamos de añadir se encargará de los permisos.
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("reservas")
+    .delete()
+    .eq("id", reservaId) // Borra la reserva específica
+    .eq("estado", "pendiente"); // Doble chequeo de seguridad
+
+  if (error) {
+    console.error("Error cancelando reserva:", error);
+    return { error: "No se pudo cancelar la reserva." };
+  }
+
+  revalidatePath("/pago");
+  // Redirige al usuario de vuelta a la lista de habitaciones
+  redirect("/habitaciones");
 }

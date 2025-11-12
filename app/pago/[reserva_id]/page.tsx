@@ -3,6 +3,7 @@
 // Convertido a Componente Cliente: carga datos en el navegador
 import { createClient } from "@/lib/supabase/client";
 import { PaypalClientButton } from "@/components/PaypalClientButton";
+import { cancelPendingReservation } from "./actions";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 
@@ -79,6 +80,14 @@ export default function PagoPage() {
   const precioPorNoche = reserva.habitaciones?.precio_por_noche ?? 0;
   const total = noches * precioPorNoche;
 
+  // Handler para cancelar la reserva
+  const handleCancelReservation = async () => {
+    if (!confirm("¿Estás seguro de que deseas cancelar esta reserva?")) {
+      return;
+    }
+    await cancelPendingReservation(reserva.id);
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10">
       <div className="max-w-4xl mx-auto px-4">
@@ -113,6 +122,17 @@ export default function PagoPage() {
                 {precioPorNoche}
               </p>
               <p className="text-xl font-bold mt-4">Total: ${total}</p>
+
+              {/* Botón para cancelar la reserva */}
+              <div className="mt-6 border-t pt-4">
+                <button
+                  onClick={handleCancelReservation}
+                  type="button"
+                  className="w-full text-center text-sm text-red-600 hover:text-red-800 hover:underline font-medium"
+                >
+                  Cancelar esta reserva
+                </button>
+              </div>
             </div>
           </div>
           {/* Pago con PayPal */}

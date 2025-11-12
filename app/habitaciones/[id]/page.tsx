@@ -39,6 +39,9 @@ export default function HabitacionDetailPage() {
   const supabase = createClient();
   const params = useParams();
   const [habitacion, setHabitacion] = useState<HabitacionType | null>(null);
+  const [reservasBloqueadas, setReservasBloqueadas] = useState<
+    { fecha_inicio: string; fecha_fin: string }[]
+  >([]);
   const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -57,9 +60,7 @@ export default function HabitacionDetailPage() {
 
       const { data, error } = await supabase
         .from("habitaciones")
-        .select(
-          "*, imagenes(url_imagen), reviews(*, profiles(email)), reservas(fecha_inicio, fecha_fin, estado)"
-        )
+        .select("*, imagenes(url_imagen), reviews(*, profiles(email))")
         .eq("id", habitacionId)
         .single();
 
@@ -67,6 +68,18 @@ export default function HabitacionDetailPage() {
         console.error("Error fetching habitacion:", error);
       } else {
         setHabitacion(data);
+      }
+
+      // Cargar las fechas bloqueadas
+      const { data: reservasData, error: reservasError } = await supabase.rpc(
+        "get_public_reservas",
+        { p_habitacion_id: habitacionId }
+      );
+
+      if (reservasError) {
+        console.error("Error fetching public reservas:", reservasError);
+      } else {
+        setReservasBloqueadas(reservasData);
       }
 
       setLoading(false);
@@ -214,7 +227,7 @@ export default function HabitacionDetailPage() {
                   habitacionId={habitacion.id}
                   precioPorNoche={habitacion.precio_por_noche}
                   userId={user.id}
-                  existingReservations={habitacion.reservas}
+                  existingReservations={reservasBloqueadas}
                 />
               ) : (
                 <div className="bg-white rounded-xl shadow-md p-6 mb-8">

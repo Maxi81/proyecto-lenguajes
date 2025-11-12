@@ -82,7 +82,10 @@ export async function updateSession(request: NextRequest) {
 
   // Public pages: home and login should remain accessible
   const isPublicPath =
-    pathname === "/" || pathname === "/login" || pathname.startsWith("/auth");
+    pathname === "/" ||
+    pathname === "/login" ||
+    pathname === "/contacto" ||
+    pathname.startsWith("/auth");
 
   // If the user is not authenticated and the path is not public, redirect to /login
   if (!claims && !isPublicPath) {
