@@ -39,6 +39,7 @@ export default async function HabitacionesPage() {
               {(habitaciones as any[]).map((habitacion) => (
                 <RoomCard
                   key={habitacion.id}
+                  id={habitacion.id}
                   title={habitacion.nombre}
                   location={habitacion.descripcion}
                   tipo={habitacion.tipo}
@@ -47,6 +48,7 @@ export default async function HabitacionesPage() {
                   }`}
                   price={`$${habitacion.precio_por_noche} USD`}
                   image={habitacion.imagenes?.[0]?.url_imagen}
+                  rating={habitacion.avg_rating}
                 />
               ))}
             </div>
