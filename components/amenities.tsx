@@ -26,32 +26,39 @@ const amenities = [
 
 export function Amenities() {
   return (
-    <section className="py-16 px-4 md:py-24 text-gray-900">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Nuestras Mejores Comodidades</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Diseñado para una estancia inolvidable. Explora los servicios exclusivos que ofrece Blue Dragon.
+    <section className="py-24 px-8 md:py-32 bg-background">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-6xl font-serif font-light mb-6 tracking-tight">
+            Comodidades
+          </h2>
+          <p className="text-muted-foreground text-lg font-light max-w-2xl mx-auto leading-relaxed">
+            Diseñado para una estancia inolvidable. Explora los servicios
+            exclusivos que ofrece Blue Dragon.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {amenities.map((amenity, index) => (
             <Card
               key={index}
-              className="overflow-hidden group hover:shadow-lg transition-shadow"
+              className="overflow-hidden group hover:shadow-xl transition-all duration-500 border-border bg-card"
             >
-              <div className="relative h-64 w-full overflow-hidden">
+              <div className="relative h-80 w-full overflow-hidden">
                 <Image
                   src={amenity.image}
                   alt={amenity.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-2">{amenity.title}</h3>
-                <p className="text-gray-600 mb-4">{amenity.description}</p>
+              <div className="p-8">
+                <h3 className="text-2xl font-serif font-light mb-4 tracking-tight">
+                  {amenity.title}
+                </h3>
+                <p className="text-muted-foreground font-light leading-relaxed">
+                  {amenity.description}
+                </p>
               </div>
             </Card>
           ))}

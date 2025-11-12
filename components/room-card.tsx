@@ -24,12 +24,12 @@ export function RoomCard({
 }: RoomCardProps) {
   return (
     <Link href={`/habitaciones/${id}`}>
-      <article className="max-w-sm cursor-pointer">
-        <div className="relative">
+      <article className="max-w-sm cursor-pointer group">
+        <div className="relative overflow-hidden">
           <img
             src={image}
             alt={title}
-            className="w-full h-64 object-cover rounded-2xl shadow-md"
+            className="w-full h-80 object-cover rounded-sm transition-transform duration-700 group-hover:scale-105"
           />
 
           {/* Badge 'Favorito entre huéspedes' - oculto por ahora */}
@@ -50,23 +50,38 @@ export function RoomCard({
           </button>
         </div>
 
-        <div className="mt-4">
-          <h4 className="text-lg font-semibold text-gray-900">{title}</h4>
-          <div className="flex items-center justify-between text-sm text-gray-600 mt-1">
+        <div className="mt-6">
+          <h4 className="text-xl font-serif font-light tracking-tight">
+            {title}
+          </h4>
+          <div className="flex items-center justify-between mt-3">
             <div>
-              <p>{location}</p>
-              <p className="text-xs text-gray-500 capitalize">{tipo}</p>
-              <p className="text-xs text-gray-500">{beds}</p>
+              <p className="text-sm text-muted-foreground font-light">
+                {location}
+              </p>
+              <p className="text-xs text-muted-foreground font-light capitalize mt-1">
+                {tipo}
+              </p>
+              <p className="text-xs text-muted-foreground font-light mt-0.5">
+                {beds}
+              </p>
             </div>
             <div className="text-right">
-              <div className="text-sm font-medium">
+              <div className="text-sm font-light">
                 {rating && Number(rating) > 0 ? (
                   `★ ${Number(rating).toFixed(1)}`
                 ) : (
-                  <span className="text-xs">Sin reseñas</span>
+                  <span className="text-xs text-muted-foreground">
+                    Sin reseñas
+                  </span>
                 )}
               </div>
-              <div className="text-xs text-gray-500">{price} por noche</div>
+              <div className="text-xs text-muted-foreground font-light mt-1">
+                {price}
+              </div>
+              <div className="text-xs text-muted-foreground font-light">
+                por noche
+              </div>
             </div>
           </div>
         </div>

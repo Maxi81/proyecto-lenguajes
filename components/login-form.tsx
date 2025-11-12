@@ -39,11 +39,11 @@ export function LoginForm({
         password,
       });
       if (error) throw error;
-      
+
       // Determinar el rol del usuario según su email
       const userRole = getUserRole(email);
       const redirectPath = getRoleRedirectPath(userRole);
-      
+
       // Redirigir al usuario según su rol
       router.push(redirectPath);
     } catch (error: unknown) {
@@ -54,36 +54,49 @@ export function LoginForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
+    <div className={cn("flex flex-col gap-8", className)} {...props}>
+      <Card className="border-border bg-card">
+        <CardHeader className="pb-8">
+          <CardTitle className="text-3xl font-serif font-light tracking-tight">
+            Iniciar Sesión
+          </CardTitle>
+          <CardDescription className="text-muted-foreground font-light">
+            Ingresa tus credenciales para acceder a tu cuenta
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin}>
             <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+              <div className="grid gap-3">
+                <Label
+                  htmlFor="email"
+                  className="text-sm font-light tracking-wide uppercase text-muted-foreground"
+                >
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="tu@email.com"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="border-border bg-background font-light"
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label
+                    htmlFor="password"
+                    className="text-sm font-light tracking-wide uppercase text-muted-foreground"
+                  >
+                    Contraseña
+                  </Label>
                   <Link
                     href="/auth/forgot-password"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    className="ml-auto text-xs font-light text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline"
                   >
-                    Forgot your password?
+                    ¿Olvidaste tu contraseña?
                   </Link>
                 </div>
                 <Input
@@ -92,20 +105,27 @@ export function LoginForm({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="border-border bg-background font-light"
                 />
               </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Login"}
+              {error && (
+                <p className="text-sm text-destructive font-light">{error}</p>
+              )}
+              <Button
+                type="submit"
+                className="w-full mt-2 bg-primary text-primary-foreground hover:bg-foreground rounded-sm py-6 font-light tracking-wide"
+                disabled={isLoading}
+              >
+                {isLoading ? "Iniciando sesión..." : "Iniciar Sesión"}
               </Button>
             </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
+            <div className="mt-6 text-center text-sm font-light text-muted-foreground">
+              ¿No tienes cuenta?{" "}
               <Link
                 href="/auth/sign-up"
-                className="underline underline-offset-4"
+                className="text-foreground hover:text-accent transition-colors underline-offset-4 hover:underline"
               >
-                Sign up
+                Regístrate
               </Link>
             </div>
           </form>

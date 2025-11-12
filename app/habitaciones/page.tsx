@@ -9,7 +9,7 @@ export default async function HabitacionesPage() {
   const { data: habitaciones, error } = await supabase
     .from("habitaciones")
     .select("*, imagenes(url_imagen, alt_text)")
-    .eq('is_available', true);
+    .eq("is_available", true);
 
   if (error) {
     console.error("Error fetching habitaciones:", error);
@@ -21,10 +21,12 @@ export default async function HabitacionesPage() {
         <Navbar />
       </div>
 
-      <div className="w-full max-w-6xl mx-auto px-4 pt-32 pb-24">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Habitaciones</h1>
-          <p className="text-gray-900 mt-2">
+      <div className="w-full max-w-7xl mx-auto px-8 pt-32 pb-24">
+        <header className="mb-16">
+          <h1 className="text-5xl md:text-6xl font-serif font-light tracking-tight mb-4">
+            Habitaciones
+          </h1>
+          <p className="text-muted-foreground text-lg font-light">
             Encuentra el alojamiento perfecto para tu próxima estadía.
           </p>
         </header>
@@ -32,11 +34,11 @@ export default async function HabitacionesPage() {
         <section>
           {!habitaciones ||
           (Array.isArray(habitaciones) && habitaciones.length === 0) ? (
-            <p className="text-center text-gray-900">
+            <p className="text-center text-muted-foreground font-light">
               No hay habitaciones disponibles
             </p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
               {(habitaciones as any[]).map((habitacion) => (
                 <RoomCard
                   key={habitacion.id}

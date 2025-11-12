@@ -10,18 +10,18 @@ const IMAGES = [
 
 export function Hero() {
   return (
-    <section className="relative w-full h-[60vh] md:h-[70vh] lg:h-screen overflow-hidden">
+    <section className="relative w-full h-[70vh] md:h-[80vh] lg:h-screen overflow-hidden">
       <Carousel images={IMAGES} className="carousel-no-buttons" />
 
       {/* Título del hotel centrado */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
-        <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold text-white text-center tracking-wider hotel-title-shadow">
-          Hotel BlueDragon
+        <h1 className="text-5xl md:text-7xl lg:text-9xl font-serif font-light text-white text-center tracking-luxury hotel-title-shadow">
+          BLUE DRAGON
         </h1>
       </div>
 
       {/* capa inferior para mejorar contraste con el contenido que viene debajo */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/60 to-transparent pointer-events-none" />
     </section>
   );
 }

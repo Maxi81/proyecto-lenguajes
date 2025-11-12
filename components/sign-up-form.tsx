@@ -57,58 +57,85 @@ export function SignUpForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Registrarse</CardTitle>
-          <CardDescription>Crea una nueva cuenta</CardDescription>
+    <div className={cn("flex flex-col gap-8", className)} {...props}>
+      <Card className="border-border bg-card">
+        <CardHeader className="pb-8">
+          <CardTitle className="text-3xl font-serif font-light tracking-tight">
+            Crear Cuenta
+          </CardTitle>
+          <CardDescription className="text-muted-foreground font-light">
+            Completa el formulario para registrarte
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSignUp}>
             <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Correo electrónico</Label>
+              <div className="grid gap-3">
+                <Label
+                  htmlFor="email"
+                  className="text-sm font-light tracking-wide uppercase text-muted-foreground"
+                >
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="correo@ejemplo.com"
+                  placeholder="tu@email.com"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="border-border bg-background font-light"
                 />
               </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Contraseña</Label>
-                </div>
+              <div className="grid gap-3">
+                <Label
+                  htmlFor="password"
+                  className="text-sm font-light tracking-wide uppercase text-muted-foreground"
+                >
+                  Contraseña
+                </Label>
                 <Input
                   id="password"
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="border-border bg-background font-light"
                 />
               </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="repeat-password">Repetir contraseña</Label>
-                </div>
+              <div className="grid gap-3">
+                <Label
+                  htmlFor="repeat-password"
+                  className="text-sm font-light tracking-wide uppercase text-muted-foreground"
+                >
+                  Repetir Contraseña
+                </Label>
                 <Input
                   id="repeat-password"
                   type="password"
                   required
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
+                  className="border-border bg-background font-light"
                 />
               </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              {error && (
+                <p className="text-sm text-destructive font-light">{error}</p>
+              )}
+              <Button
+                type="submit"
+                className="w-full mt-2 bg-primary text-primary-foreground hover:bg-foreground rounded-sm py-6 font-light tracking-wide"
+                disabled={isLoading}
+              >
                 {isLoading ? "Creando cuenta..." : "Registrarse"}
               </Button>
             </div>
-            <div className="mt-4 text-center text-sm">
-              ¿Ya tienes una cuenta?{" "}
-              <Link href="/login" className="underline underline-offset-4">
+            <div className="mt-6 text-center text-sm font-light text-muted-foreground">
+              ¿Ya tienes cuenta?{" "}
+              <Link
+                href="/login"
+                className="text-foreground hover:text-accent transition-colors underline-offset-4 hover:underline"
+              >
                 Iniciar sesión
               </Link>
             </div>

@@ -85,23 +85,23 @@ export default function ContactoPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
-        <div className="max-w-2xl mx-auto px-4">
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+      <main className="min-h-screen bg-background py-24">
+        <div className="max-w-3xl mx-auto px-8">
+          <div className="bg-card rounded-sm border border-border p-12">
+            <h1 className="text-5xl font-serif font-light tracking-tight mb-3">
               Contáctanos
             </h1>
-            <p className="text-gray-600 mb-8">
+            <p className="text-muted-foreground font-light text-lg leading-relaxed mb-12">
               ¿Tienes alguna pregunta o comentario? Envíanos un mensaje y te
               responderemos lo antes posible.
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-8">
               {/* Campo Email */}
               <div>
                 <label
                   htmlFor="from_email"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm font-light tracking-wide uppercase text-muted-foreground mb-3"
                 >
                   Email
                 </label>
@@ -113,13 +113,13 @@ export default function ContactoPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isLoggedIn}
                   required
-                  className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
-                    isLoggedIn ? "bg-gray-100 cursor-not-allowed" : "bg-white"
+                  className={`w-full px-4 py-3 border border-border bg-background text-foreground rounded-sm focus:outline-none focus:border-foreground transition-colors duration-300 font-light ${
+                    isLoggedIn ? "opacity-60 cursor-not-allowed" : ""
                   }`}
                   placeholder="tu@email.com"
                 />
                 {isLoggedIn && (
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-muted-foreground mt-2 font-light">
                     Email cargado desde tu cuenta
                   </p>
                 )}
@@ -129,7 +129,7 @@ export default function ContactoPage() {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm font-light tracking-wide uppercase text-muted-foreground mb-3"
                 >
                   Mensaje
                 </label>
@@ -140,7 +140,7 @@ export default function ContactoPage() {
                   onChange={(e) => setMessage(e.target.value)}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+                  className="w-full px-4 py-3 border border-border bg-background text-foreground rounded-sm focus:outline-none focus:border-foreground transition-colors duration-300 resize-none font-light"
                   placeholder="Escribe tu mensaje aquí..."
                 />
               </div>
@@ -148,13 +148,13 @@ export default function ContactoPage() {
               {/* Mensaje de estado */}
               {statusMessage.type && (
                 <div
-                  className={`p-4 rounded-lg ${
+                  className={`p-5 rounded-sm border font-light ${
                     statusMessage.type === "success"
-                      ? "bg-green-50 border border-green-200 text-green-800"
-                      : "bg-red-50 border border-red-200 text-red-800"
+                      ? "bg-accent/10 border-accent/30 text-accent"
+                      : "bg-destructive/10 border-destructive/30 text-destructive"
                   }`}
                 >
-                  <p className="text-sm font-medium">{statusMessage.text}</p>
+                  <p className="text-sm">{statusMessage.text}</p>
                 </div>
               )}
 
@@ -162,16 +162,16 @@ export default function ContactoPage() {
               <button
                 type="submit"
                 disabled={isSending}
-                className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
+                className={`w-full py-3.5 px-6 rounded-sm font-light tracking-wide text-sm transition-all duration-300 ${
                   isSending
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg"
+                    ? "bg-muted text-muted-foreground cursor-not-allowed"
+                    : "bg-primary text-primary-foreground hover:bg-foreground"
                 }`}
               >
                 {isSending ? (
                   <span className="flex items-center justify-center gap-2">
                     <svg
-                      className="animate-spin h-5 w-5 text-white"
+                      className="animate-spin h-5 w-5"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -199,14 +199,14 @@ export default function ContactoPage() {
             </form>
 
             {/* Información adicional */}
-            <div className="mt-8 pt-8 border-t border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="mt-12 pt-12 border-t border-border">
+              <h2 className="text-sm font-light tracking-wide uppercase text-muted-foreground mb-6">
                 Otras formas de contacto
               </h2>
-              <div className="space-y-2 text-gray-600">
-                <p className="flex items-center gap-2">
+              <div className="space-y-3 text-foreground font-light">
+                <p className="flex items-center gap-3">
                   <svg
-                    className="w-5 h-5"
+                    className="w-5 h-5 text-muted-foreground"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -214,15 +214,15 @@ export default function ContactoPage() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={1.5}
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                     />
                   </svg>
                   info@groovy.com
                 </p>
-                <p className="flex items-center gap-2">
+                <p className="flex items-center gap-3">
                   <svg
-                    className="w-5 h-5"
+                    className="w-5 h-5 text-muted-foreground"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -230,7 +230,7 @@ export default function ContactoPage() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={1.5}
                       d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                     />
                   </svg>
@@ -240,11 +240,11 @@ export default function ContactoPage() {
             </div>
 
             {/* Mapa de ubicación */}
-            <div className="mt-8 pt-8 border-t border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="mt-12 pt-12 border-t border-border">
+              <h2 className="text-sm font-light tracking-wide uppercase text-muted-foreground mb-6">
                 Nuestra ubicación
               </h2>
-              <div className="w-full h-[450px] rounded-lg overflow-hidden shadow-md">
+              <div className="w-full h-[450px] rounded-sm overflow-hidden border border-border">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29768.82103660141!2d-86.826930642128!3d21.148313632016343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f4c29315eccc1f1%3A0x8c7cb90332b4730d!2sPlaya%20Tortugas!5e0!3m2!1ses-419!2sar!4v1762968249100!5m2!1ses-419!2sar"
                   width="100%"

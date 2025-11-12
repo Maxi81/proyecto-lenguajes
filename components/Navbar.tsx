@@ -54,49 +54,50 @@ export const Navbar = () => {
     };
   }, []);
 
-  // Clases dinámicas:
-  // Si es la página principal, el fondo es transparente (bg-black/60).
-  // Si es otra página, el fondo es blanco con sombra y texto negro.
+  // Clases dinámicas con estilo minimalista y refinado
   const headerClasses = isHomePage
-    ? "absolute bg-black/60 backdrop-blur-sm text-white"
-    : "sticky bg-white shadow-md text-gray-800";
+    ? "absolute bg-white/80 backdrop-blur-md border-b border-white/20 text-foreground"
+    : "sticky bg-white/95 backdrop-blur-md border-b border-border text-foreground shadow-sm";
 
-  const linkHoverClass = isHomePage
-    ? "hover:text-cyan-300"
-    : "hover:text-cyan-500";
+  const linkHoverClass = "hover:text-accent transition-colors duration-300";
 
-  const buttonClasses = isHomePage
-    ? "border border-white hover:bg-white hover:text-black"
-    : "border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white";
+  const buttonClasses =
+    "border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 font-light tracking-wide";
 
   return (
     <header
       className={`top-0 left-0 w-full z-10 transition-all duration-300 ${headerClasses}`}
     >
-      <nav className="container mx-auto flex items-center justify-between p-6">
+      <nav className="container mx-auto flex items-center justify-between px-8 py-6">
         {/* Logo */}
-        <div className="text-2xl font-bold">
+        <div className="text-xl font-serif font-light tracking-luxury">
           <Link href="/">BLUE DRAGON</Link>
         </div>
 
         {/* Links de Navegación */}
-        <div className="hidden md:flex items-center space-x-6">
-          <Link href="/habitaciones" className={linkHoverClass}>
+        <div className="hidden md:flex items-center space-x-12">
+          <Link
+            href="/habitaciones"
+            className={`text-sm font-light tracking-wide ${linkHoverClass}`}
+          >
             Habitaciones
           </Link>
-          <Link href="/contacto" className={linkHoverClass}>
+          <Link
+            href="/contacto"
+            className={`text-sm font-light tracking-wide ${linkHoverClass}`}
+          >
             Contacto
           </Link>
         </div>
 
         {/* Grupo de botones: Autenticación */}
-        <div className="hidden md:flex items-center space-x-2">
+        <div className="hidden md:flex items-center space-x-4">
           {/* Botones según estado de autenticación */}
           {isLoggedIn ? (
             <div className="flex items-center gap-4">
               <Link
                 href="/reservas-pendientes"
-                className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+                className={`rounded-sm px-6 py-2.5 text-sm font-light transition-colors ${buttonClasses}`}
               >
                 Pagar Reserva
               </Link>
@@ -113,7 +114,7 @@ export const Navbar = () => {
                     alert("Error al cerrar sesión. Revisa la consola.");
                   }
                 }}
-                className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+                className={`rounded-sm px-6 py-2.5 text-sm font-light transition-colors ${buttonClasses}`}
               >
                 Cerrar sesión
               </button>
@@ -122,13 +123,13 @@ export const Navbar = () => {
             <>
               <Link
                 href="/login"
-                className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+                className={`rounded-sm px-6 py-2.5 text-sm font-light transition-colors ${buttonClasses}`}
               >
                 Iniciar Sesión
               </Link>
               <Link
                 href="/auth/sign-up"
-                className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
+                className={`rounded-sm px-6 py-2.5 text-sm font-light transition-colors ${buttonClasses}`}
               >
                 Registrarte
               </Link>
