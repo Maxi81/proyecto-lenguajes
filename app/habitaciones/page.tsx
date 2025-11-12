@@ -8,7 +8,8 @@ export default async function HabitacionesPage() {
 
   const { data: habitaciones, error } = await supabase
     .from("habitaciones")
-    .select("*, imagenes(url_imagen, alt_text)");
+    .select("*, imagenes(url_imagen, alt_text)")
+    .eq('is_available', true);
 
   if (error) {
     console.error("Error fetching habitaciones:", error);

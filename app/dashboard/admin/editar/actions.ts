@@ -34,18 +34,35 @@ export async function updateRoom(formData: FormData) {
       })
       .eq("id", id);
 
-    // Handle image URL
-    const imageUrl = formData.get("imagen_url") as string | null;
+    // 1. Leer las 3 URLs del formulario
+    const urls = [
+      formData.get('imagen_url_1') as string,
+      formData.get('imagen_url_2') as string,
+      formData.get('imagen_url_3') as string,
+    ];
 
-    if (imageUrl && imageUrl.trim() !== "") {
-      // Delete old images for this habitacion
+    // 2. Filtrar las que no estén vacías y darles formato
+    const imagenesParaInsertar = urls
+      .filter(url => url && url.trim() !== '') // Quitar strings vacíos o null
+      .map((url, index) => ({
+        habitacion_id: id,
+        url_imagen: url.trim(),
+        orden: index // Guardar el orden (0, 1, 2)
+      }));
+
+    // 3. Si hay imágenes válidas, eliminar las viejas e insertar las nuevas
+    if (imagenesParaInsertar.length > 0) {
+      // Eliminar todas las imágenes antiguas
       await supabase.from("imagenes").delete().eq("habitacion_id", id);
 
-      // Insert new image URL
-      await supabase.from("imagenes").insert({
-        habitacion_id: id,
-        url_imagen: imageUrl.trim(),
-      });
+      // Insertar las nuevas imágenes
+      const { error: imgError } = await supabase
+        .from("imagenes")
+        .insert(imagenesParaInsertar);
+
+      if (imgError) {
+        console.error('Error insertando imágenes:', imgError);
+      }
     }
 
     revalidatePath("/dashboard/admin");

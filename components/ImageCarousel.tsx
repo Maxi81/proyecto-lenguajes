@@ -32,12 +32,12 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
   const currentImage = images[currentIndex];
 
   return (
-    <div className="relative w-full h-96 bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+    <div className="relative w-full h-full bg-black rounded-lg overflow-hidden shadow-lg">
       {/* Imagen actual */}
       <img
         src={currentImage.url_imagen}
         alt={`Imagen ${currentIndex + 1}`}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-contain"
       />
 
       {/* Botón anterior */}

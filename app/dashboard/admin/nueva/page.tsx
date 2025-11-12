@@ -77,13 +77,45 @@ export default function NewRoomPage() {
           </div>
         </div>
 
+        {/* Imagen 1 (Principal) */}
         <div>
-          <label className="block text-sm font-medium text-gray-900">Imagen URL</label>
+          <label htmlFor="imagen_url_1" className="block text-sm font-medium text-gray-700">
+            Imagen URL 1 (Principal)
+          </label>
           <input
-            name="imagen_url"
             type="text"
+            name="imagen_url_1"
+            id="imagen_url_1"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
             placeholder="Pega la URL de la imagen aquí"
-            className="mt-1 block w-full rounded border px-3 py-2 text-white"
+          />
+        </div>
+        
+        {/* Imagen 2 */}
+        <div>
+          <label htmlFor="imagen_url_2" className="block text-sm font-medium text-gray-700">
+            Imagen URL 2
+          </label>
+          <input
+            type="text"
+            name="imagen_url_2"
+            id="imagen_url_2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            placeholder="Pega la URL de la imagen aquí"
+          />
+        </div>
+        
+        {/* Imagen 3 */}
+        <div>
+          <label htmlFor="imagen_url_3" className="block text-sm font-medium text-gray-700">
+            Imagen URL 3
+          </label>
+          <input
+            type="text"
+            name="imagen_url_3"
+            id="imagen_url_3"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            placeholder="Pega la URL de la imagen aquí"
           />
         </div>
 

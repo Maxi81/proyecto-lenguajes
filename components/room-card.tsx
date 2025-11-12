@@ -48,13 +48,6 @@ export function RoomCard({
               <path d="M12.1 8.64l-.1.1-.11-.11C10.14 6.7 7.6 6.4 6.1 7.9c-1.5 1.5-1.22 4.04.78 6.04L12 20.2l4.99-6.25c2-2 2.27-4.54.78-6.04-1.5-1.5-4.04-1.2-5.67.68z" />
             </svg>
           </button>
-
-          {/* small dots like carousel indicator (decorative) */}
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
-            <span className="w-2 h-2 bg-white/80 rounded-full" />
-            <span className="w-2 h-2 bg-white/50 rounded-full" />
-            <span className="w-2 h-2 bg-white/50 rounded-full" />
-          </div>
         </div>
 
         <div className="mt-4">

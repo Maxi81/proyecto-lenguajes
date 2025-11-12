@@ -30,6 +30,8 @@ export function ReservationCard({
   const [range, setRange] = useState<DateRange | undefined>(undefined);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // (Responsive eliminado) Siempre mostramos 1 mes.
+
   // Wrapper para ajustar el tipo esperado por form action
   async function handleCreateReservation(formData: FormData) {
     // Limpiar error antiguo
@@ -79,31 +81,38 @@ export function ReservationCard({
         onSelect={setRange}
         numberOfMonths={1}
         disabled={[...disabledDates, { before: new Date() }]}
-        className="border rounded-lg p-4"
+        className="border rounded-lg overflow-hidden"
         classNames={{
-          months:
-            "flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4",
-          month: "space-y-4",
+          // Contenedor principal
+          month: "space-y-4 p-4",
+
+          // Título del mes
           caption: "flex justify-center py-2 relative items-center",
           caption_label: "text-lg font-semibold text-gray-900",
+
+          // Botones de flecha
           nav: "space-x-1 flex items-center",
-          nav_button:
-            "h-7 w-7 flex items-center justify-center p-1 rounded-full hover:bg-gray-100",
+          nav_button: "h-7 w-7 flex items-center justify-center p-1 rounded-full hover:bg-gray-100 text-gray-800",
           nav_button_previous: "absolute left-1",
           nav_button_next: "absolute right-1",
-          head_row: "flex justify-between mt-2",
-          head_cell: "text-gray-600 font-medium text-sm w-9",
-          table: "border-collapse space-y-1",
-          row: "flex w-full mt-1",
-          cell: "text-center text-sm p-0 w-9 h-9 relative focus-within:relative focus-within:z-20",
-          day: "h-9 w-9 p-0 font-normal text-gray-800 hover:bg-gray-100 rounded-md",
+
+          // Estilos de la TABLA del calendario
+          table: "w-full border-collapse", // <-- Usa todo el ancho
+          head_row: "flex",
+          head_cell: "text-gray-500 rounded-md w-full justify-center font-normal text-[0.8rem] p-1", // <-- Días de la semana
+
+          row: "flex w-full mt-2", // <-- Fila de la semana
+          cell: "p-0 m-0.5 text-center text-sm relative first:[&:has([aria-selected])]:rounded-l-full last:[&:has([aria-selected])]:rounded-r-full focus-within:relative focus-within:z-20", // <-- Contenedor del día
+
+          // Estilos de DÍAS individuales
+          day: "h-9 w-9 p-0 font-normal rounded-full text-gray-800 hover:bg-gray-100",
           day_today: "bg-blue-100 text-blue-700 font-semibold",
           day_outside: "text-gray-400 opacity-70",
           day_disabled: "text-gray-300 opacity-50 line-through",
-          day_range_start:
-            "day-range-start bg-blue-600 text-white rounded-l-full hover:bg-blue-600",
-          day_range_end:
-            "day-range-end bg-blue-600 text-white rounded-r-full hover:bg-blue-600",
+
+          // Estilos de RANGO
+          day_range_start: "day-range-start bg-blue-600 text-white rounded-l-full hover:bg-blue-600",
+          day_range_end: "day-range-end bg-blue-600 text-white rounded-r-full hover:bg-blue-600",
           day_selected: "bg-blue-500 text-white hover:bg-blue-600 rounded-full",
           day_range_middle: "bg-blue-100 text-blue-700 rounded-none",
         }}

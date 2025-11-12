@@ -104,12 +104,40 @@ export default function AdminRoomForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-900">Imagen URL</label>
+          <label className="block text-sm font-medium text-gray-900">
+            Imagen URL 1 (Principal)
+          </label>
           <input
-            name="imagen_url"
+            name="imagen_url_1"
             type="text"
-            placeholder="Pega la URL de la imagen aquí"
+            placeholder="Pega la URL de la imagen principal aquí"
             defaultValue={habitacion.imagenes?.[0]?.url_imagen ?? ""}
+            className="mt-1 block w-full rounded border px-3 py-2 text-white"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-900">
+            Imagen URL 2
+          </label>
+          <input
+            name="imagen_url_2"
+            type="text"
+            placeholder="Pega la URL de la segunda imagen aquí"
+            defaultValue={habitacion.imagenes?.[1]?.url_imagen ?? ""}
+            className="mt-1 block w-full rounded border px-3 py-2 text-white"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-900">
+            Imagen URL 3
+          </label>
+          <input
+            name="imagen_url_3"
+            type="text"
+            placeholder="Pega la URL de la tercera imagen aquí"
+            defaultValue={habitacion.imagenes?.[2]?.url_imagen ?? ""}
             className="mt-1 block w-full rounded border px-3 py-2 text-white"
           />
         </div>

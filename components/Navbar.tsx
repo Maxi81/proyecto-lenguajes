@@ -84,29 +84,13 @@ export const Navbar = () => {
           <Link href="/habitaciones" className={linkHoverClass}>
             Habitaciones
           </Link>
-          <Link href="#paquetes" className={linkHoverClass}>
-            Paquetes
-          </Link>
-          <Link href="#galeria" className={linkHoverClass}>
-            Galería
-          </Link>
-          {/* ----- ¡AQUÍ ESTÁ EL CAMBIO PRINCIPAL! ----- */}
           <Link href="/contacto" className={linkHoverClass}>
             Contacto
           </Link>
-          {/* -------------------------------------- */}
         </div>
 
-        {/* Grupo de botones: Reservar + Autenticación */}
+        {/* Grupo de botones: Autenticación */}
         <div className="hidden md:flex items-center space-x-2">
-          {/* Botón de Reservar */}
-          <Link
-            href={isLoggedIn ? "/reservar" : "/login"}
-            className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${buttonClasses}`}
-          >
-            Reservar
-          </Link>
-
           {/* Botones según estado de autenticación */}
           {isLoggedIn ? (
             <button

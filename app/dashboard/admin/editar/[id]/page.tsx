@@ -15,8 +15,9 @@ export default async function EditRoomPage({ params }: Props) {
 
   const { data: habitacion, error } = await supabase
     .from("habitaciones")
-    .select("*, imagenes(url_imagen)")
+    .select("*, imagenes(url_imagen, orden)")
     .eq("id", Number(id))
+    .order("orden", { foreignTable: "imagenes", ascending: true })
     .maybeSingle();
 
   if (error) {

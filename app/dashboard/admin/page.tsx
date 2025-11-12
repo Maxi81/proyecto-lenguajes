@@ -5,6 +5,10 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { updateUserRole } from "./usuarios/actions";
 import { UserRow } from "./usuarios/UserRow";
+import { getStatsReservasPorTipo, getStatsIngresosPorMes, getStatsTopHabitaciones } from "./actions";
+import { ReservasPieChart } from "./ReservasPieChart";
+import { IngresosLineChart } from "./IngresosLineChart";
+import { TopHabitacionesBarChart } from "./TopHabitacionesBarChart";
 
 // Server Action to delete a room
 export async function deleteRoom(formData: FormData) {
@@ -45,6 +49,15 @@ export default async function AdminDashboard() {
     console.error("Error fetching profiles:", profilesError);
   }
 
+  // Query 3: Stats para el gráfico
+  const pieChartData = await getStatsReservasPorTipo();
+
+  // Query 4: Stats de ingresos por mes
+  const lineChartData = await getStatsIngresosPorMes();
+
+  // Query 5: Stats de habitaciones más populares
+  const barChartData = await getStatsTopHabitaciones();
+
   return (
     <div className="flex-1 w-full flex flex-col gap-6 items-center">
       <div className="w-full max-w-6xl flex justify-between items-center">
@@ -56,6 +69,30 @@ export default async function AdminDashboard() {
           Crear Nueva Habitación
         </Link>
       </div>
+
+      {/* Sección del gráfico */}
+      <section className="bg-white rounded-lg shadow p-6 my-6 w-full max-w-6xl">
+        <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          Reservas por Tipo de Habitación (Confirmadas)
+        </h2>
+        <ReservasPieChart data={pieChartData} />
+      </section>
+
+      {/* Sección del gráfico de ingresos */}
+      <section className="bg-white rounded-lg shadow p-6 my-6 w-full max-w-6xl">
+        <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          Ingresos por Mes (Confirmadas)
+        </h2>
+        <IngresosLineChart data={lineChartData} />
+      </section>
+
+      {/* Sección del gráfico de habitaciones más populares */}
+      <section className="bg-white rounded-lg shadow p-6 my-6 w-full max-w-6xl">
+        <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          Top 5 Habitaciones Más Populares
+        </h2>
+        <TopHabitacionesBarChart data={barChartData} />
+      </section>
 
       <div className="w-full max-w-6xl">
         {!habitaciones ||
