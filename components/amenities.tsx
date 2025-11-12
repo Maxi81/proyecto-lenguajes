@@ -5,34 +5,33 @@ import { Card } from "./ui/card";
 
 const amenities = [
   {
-    title: "Swimming Pool",
+    title: "Piscina Climatizada",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.",
+      "Disfruta de nuestra piscina interior climatizada, abierta todo el año. Un espacio perfecto para relajarte o hacer ejercicio, con servicio de toallas incluido.",
     image: "/pool.jpg",
   },
   {
-    title: "Iconic Spa",
+    title: "Spa y Bienestar",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.",
+      "Un refugio de tranquilidad donde el tiempo se detiene. Ofrecemos masajes terapéuticos, sauna seca y tratamientos faciales con productos orgánicos.",
     image: "/spa.jpg",
   },
   {
-    title: "Luxurious Rooms",
+    title: "Habitaciones de Lujo",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.",
+      "Diseño elegante y comodidad superior. Nuestras suites cuentan con camas king-size, baño privado con bañera de hidromasaje y vistas panorámicas.",
     image: "/room.jpg",
   },
 ];
 
 export function Amenities() {
   return (
-    <section className="py-16 px-4 md:py-24">
+    <section className="py-16 px-4 md:py-24 text-gray-900">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Amenities</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Nuestras Mejores Comodidades</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Cursus tempus, tincidunt quis sem sapien id non eget sed in
-            consequat tellus phasellus orci in semper elit porttitor eget metus.
+            Diseñado para una estancia inolvidable. Explora los servicios exclusivos que ofrece Blue Dragon.
           </p>
         </div>
 
@@ -53,18 +52,9 @@ export function Amenities() {
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-2">{amenity.title}</h3>
                 <p className="text-gray-600 mb-4">{amenity.description}</p>
-                <button className="text-sm font-semibold uppercase tracking-wider hover:underline">
-                  READ MORE
-                </button>
               </div>
             </Card>
           ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <button className="bg-black text-white px-8 py-3 rounded hover:bg-gray-800 transition-colors">
-            GET BOOKINGS
-          </button>
         </div>
       </div>
     </section>

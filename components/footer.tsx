@@ -7,10 +7,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Hotel Info */}
           <div>
-            <h3 className="text-2xl font-bold mb-6">Hotel BlueDragon</h3>
+            <h3 className="text-2xl font-bold mb-6">Hotel Blue Dragon</h3>
             <p className="text-gray-600 mb-4">
-              Experience luxury and comfort in our exclusive beachfront
-              location.
+              Experimenta el lujo y la comodidad en nuestra exclusiva ubicación frente al mar.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-600 hover:text-gray-900">
@@ -48,26 +47,26 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-6">Enlaces Rápidos</h3>
             <ul className="space-y-4">
               <li>
                 <a href="#" className="text-gray-600 hover:text-gray-900">
-                  About Us
+                  Acerca de Nosotros
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-600 hover:text-gray-900">
-                  Our Rooms
+                  Nuestras Habitaciones
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-600 hover:text-gray-900">
-                  Spa & Wellness
+                  Spa y Bienestar
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-600 hover:text-gray-900">
-                  Restaurant
+                  Restaurante
                 </a>
               </li>
             </ul>
@@ -75,7 +74,7 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Contact</h3>
+            <h3 className="text-lg font-semibold mb-6">Contacto</h3>
             <ul className="space-y-4">
               <li className="text-gray-600">123 Beach Road</li>
               <li className="text-gray-600">Paradise City, PC 12345</li>
@@ -86,21 +85,21 @@ export function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Newsletter</h3>
+            <h3 className="text-lg font-semibold mb-6">Boletín Informativo</h3>
             <p className="text-gray-600 mb-4">
-              Subscribe to our newsletter for updates and special offers.
+              Suscríbete a nuestro boletín para recibir novedades y ofertas especiales.
             </p>
             <form className="flex flex-col space-y-4">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Ingresa tu correo"
                 className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
               />
               <button
                 type="submit"
                 className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors"
               >
-                Subscribe
+                Suscribirse
               </button>
             </form>
           </div>
@@ -108,7 +107,7 @@ export function Footer() {
 
         <div className="border-t mt-12 pt-8">
           <p className="text-center text-gray-600">
-            © {new Date().getFullYear()} Hotel BlueDragon. All rights reserved.
+            © {new Date().getFullYear()} Hotel Blue Dragon. All rights reserved.
           </p>
         </div>
       </div>

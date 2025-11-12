@@ -76,7 +76,7 @@ export const Navbar = () => {
       <nav className="container mx-auto flex items-center justify-between p-6">
         {/* Logo */}
         <div className="text-2xl font-bold">
-          <Link href="/">GROOVY</Link>
+          <Link href="/">BLUE DRAGON</Link>
         </div>
 
         {/* Links de Navegación */}
